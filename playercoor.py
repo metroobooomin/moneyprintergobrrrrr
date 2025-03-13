@@ -2,6 +2,24 @@ import streamlit as st
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from nba_api.stats.endpoints import playergamelogs
+import subprocess
+
+# Function to update requirements.txt
+def update_requirements_file():
+    try:
+        # Use pip freeze to get the list of installed packages
+        result = subprocess.run(["pip", "freeze"], capture_output=True, text=True, check=True)
+        installed_packages = result.stdout
+
+        # Write the output to requirements.txt
+        with open("requirements.txt", "w") as f:
+            f.write(installed_packages)
+        print("requirements.txt updated successfully!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Update requirements.txt dynamically
+update_requirements_file()
 
 # Load player stats for the season using the updated caching method
 @st.cache_data
